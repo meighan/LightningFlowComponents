@@ -2,6 +2,11 @@
 This folder contains a collection of Lightning Components that can be used to enhance Lightning Flow from Salesforce. Note that you do not need to write code, read code, or use developer console to install these into your Flow Designer! You can install them with a few commands by using the new Salesforce DX deployment tools. (See "Installation")
 
 
+<a href="https://githubsfdeploy.herokuapp.com?owner=MEIGHAN&repo=meighan/LightningFlowComponents">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
+
 # Lightning Flow Screen Components
 flow_screen_components contains lightning components (aura classes) that have been optimized to be inserted into Lightning Flow screens. This mainly means that they:
 1) implement the "lightning:availableForFlowScreens" interface so they appear in and can be dragged into Screen Nodes that are added to Flows susing the the Salesforce Cloud Flow Designer (and upcoming Lightning Flow Builder)
