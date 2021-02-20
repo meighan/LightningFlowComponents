@@ -1,4 +1,3 @@
-
 /* 
 Copyright 2017 OpFocus, Inc
 
@@ -23,28 +22,56 @@ public with sharing class LightningLookupController
 	// @param 		: valueFieldName - name of field from object to use as the value of the pick list 
 	// @param 		: displayedFieldName - name of field from object to display in pick list 
 	// @param 		: whereClause - optional where clause to add to the SOQL query 
+	// @param		: filteredFieldName - optional field name for filter value
+	// @param		: filterValue - filter value for filter field
 	@AuraEnabled
 	public static LookupRecords getRecords(String sObjectName, String valueFieldName, 
-											String displayedFieldName, String otherFields, String whereClause)
+											String displayedFieldName, String otherFields, String whereClause,
+                                          	String filteredFieldName, String filterFieldValue)
 	{
 		try
 		{
 			system.debug('======> sObjectName = ' + sObjectName + ', valueFieldName = ' + valueFieldName + 
-							', displayedFieldName = ' + displayedFieldName + ', whereClause = ' + whereClause);
+							', displayedFieldName = ' + displayedFieldName + ', whereClause = ' + whereClause + 
+                        	', filterField = ' + filteredFieldName + ', filterFieldValue = ' + filterFieldValue);
+            
 			if(valueFieldName == null || displayedFieldName == null || valueFieldName == '' || displayedFieldName == '')
 			{
 				return null;
 			}
+			if(sObjectName != null) sObjectName = String.escapeSingleQuotes(sObjectName); 
+			if(valueFieldName != null) valueFieldName = String.escapeSingleQuotes(valueFieldName); 
+			if(displayedFieldName != null) displayedFieldName = String.escapeSingleQuotes(displayedFieldName); 
+			if(otherFields != null) otherFields = String.escapeSingleQuotes(otherFields); 
+			//if(whereClause != null) whereClause = String.escapeSingleQuotes(whereClause); 
+			if(filteredFieldName != null) filteredFieldName = String.escapeSingleQuotes(filteredFieldName); 
+			if(filterFieldValue != null) filterFieldValue = String.escapeSingleQuotes(filterFieldValue); 
 			LookupRecords retVal = new LookupRecords();
 
 			String soql = 'Select ' + valueFieldName + ',' + displayedFieldName;
 			soql += otherFields == null || otherFields == '' ? '' : ',' + otherFields ;
 			soql += ' FROM ' + sObjectName;
-			if(whereClause != null && whereClause != '')
+			
+            Boolean IsWhere = (whereClause != null && whereClause != '');
+            Boolean IsFilter = (filterFieldValue != null && filterFieldValue != '' && filteredFieldName != null && filteredFieldName != '');
+            if(IsWhere || IsFilter)
 			{
-				soql += ' WHERE ' + whereClause;
+				soql += ' WHERE ';
 			}
-			soql += ' ORDER BY ' + displayedFieldName + ' Limit 100';
+            if(IsWhere)
+            {
+                soql += whereClause;
+            }
+			if(IsWhere && IsFilter)
+            {
+                soql += ' AND ';
+            }
+            if (IsFilter)
+            {
+                soql += filteredFieldName + '=\'' + filterFieldValue + '\'';
+            }
+            
+            soql += ' ORDER BY ' + displayedFieldName + ' Limit 100';
 			system.debug('========> soql = ' + soql);
 			SObject[] lstRec = Database.query(soql);
 			if(lstRec.isEmpty()){

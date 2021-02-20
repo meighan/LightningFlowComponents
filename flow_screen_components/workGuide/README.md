@@ -1,0 +1,3 @@
+# Work Guide Component
+
+This component is designed to be used with Flow Orchestrator. It uses Salesforce API's that have not yet been made publicly available. Stand by for more as this develops.... 

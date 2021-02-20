@@ -1,0 +1,22 @@
+.border-bottom-2px {
+    border-bottom: solid 2px;
+    border-color: var(--lwc-colorBorder);
+}
+
+.work-guide-header {
+    background: rgba(158, 158, 158, 0.76);
+    font-weight: var(--lwc-fontWeightBold);
+}
+
+.spinner-container {
+    position:relative;
+    padding: var(--lwc-spacingXxLarge);
+}
+
+img {
+    height: 50px;
+}
+
+.header-icon {
+    height: 50px;
+}

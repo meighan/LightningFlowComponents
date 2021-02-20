@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/displayNBARecommendationsFSC": [
+                "displayNBARecommendationsFSC/displayNBARecommendationsFSC.js"
+            ],
+            "c/toastMessage": [
+                "toastMessage/toastMessage.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}

@@ -1,0 +1,23 @@
+.clicked-field {
+    border: 2px solid;
+    border-color: var(--lwc-colorBorderRowSelectedHover);
+    border-radius: var(--lwc-borderRadiusMedium);
+    box-shadow: var(--lwc-shadowDrag);
+}
+
+.custom-blue-flash {
+    color: var(--lwc-colorTextLinkFocus);
+    font-weight: var(--lwc-fontWeightBold);
+}
+
+.custom-cursor-pointer {
+    cursor: pointer;
+}
+
+.custom-full-width {
+    width: 100%;
+}
+
+.custom-add-fields-header {
+    font-size: x-large;
+}

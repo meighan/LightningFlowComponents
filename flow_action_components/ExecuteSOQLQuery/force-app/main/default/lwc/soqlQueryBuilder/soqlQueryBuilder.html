@@ -1,0 +1,103 @@
+<template>
+    <template if:true={errorMessage}>
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme--error" role="alert">
+            {errorMessage}
+        </div>
+    </template>
+    <lightning-card title={label} if:false={errorMessage} class="slds-p-around--none">
+        <div class="slds-grid slds-gutters slds-p-left--small slds-p-right--small">
+            <div class="slds-col slds-size--3-of-12">
+                <lightning-combobox
+                        class="slds-p-left--none"
+                        name="objectType"
+                        label="Object Type"
+                        placeholder="Select Object Type"
+                        variant="label-stacked"
+                        value={_objectType}
+                        options={_objectTypes}
+                        disabled={disableObjectTypeSelection}
+                        onchange={handleObjectTypeChange}
+                ></lightning-combobox>
+                <c-field-selector if:true={_objectType}
+                                  object-type={_objectType}
+                                  field-selector-label={labels.availableFields}
+                                  field-selector-style={fieldPickerStyle}
+                                  onfieldselected={handleFieldSelected}
+                                  onaddall={handleAddAll}
+                                  onremoveall={handleRemoveAll}
+                ></c-field-selector>
+            </div>
+            <div class="slds-col slds-size--9-of-12 slds-p-left--small" style="position: relative">
+                <div class="field-picker-container"
+
+                >
+                    <div class="slds-p-left--xx-small">
+                            <c-selected-fields selected-fields={_selectedFields}
+                                               choose-fields-label={labels.chooseFields}
+                                               remove-all-label={labels.buttonRemoveAll}
+                                               onremoveall={handleRemoveAll}
+                                               onremovefield={handleFieldRemove}
+                                               onrenderfinished={calculateFieldPickerStyle}
+                            >
+                            </c-selected-fields>
+                    </div>
+                    <div style={conditionBuilderStyle}>
+                        <span class="slds-p-left--xx-small">
+                            {labels.generatedQuery}
+                        </span>
+                        <c-condition-builder
+                                class="slds-p-left--xx-small"
+                                object-type={_objectType}
+                                fields={fieldOptions}
+                                where-clause={whereClause}
+                                disabled={isRHSDisabled}
+                                is-disabled={conditionBuilderDisabled}
+                                onconditionschanged={handleConditionChanged}
+                                onrenderfinished={calculateFieldPickerStyle}
+                        ></c-condition-builder>
+                        <div class="slds-grid slds-wrap slds-p-left--xx-small">
+                            <div class="slds-col slds-size--3-of-12  slds-p-around_none">
+                                <lightning-input
+                                        name="limit"
+                                        type="Number"
+                                        label="Limit"
+                                        value={limit}
+                                        disabled={isRHSDisabled}
+                                        onchange={handleValueChanged}
+                                >
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size--5-of-12 slds-p-around_none">
+                                <lightning-combobox
+                                        name="orderByField"
+                                        label="Order By"
+                                        placeholder=""
+                                        variant="label-stacked"
+                                        value={orderByField}
+                                        disabled={isRHSDisabled}
+                                        options={fieldOptionsWithNone}
+                                        onchange={handleValueChanged}
+                                ></lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size--3-of-12 slds-p-around_none">
+                                <lightning-combobox
+                                        name="orderByDirection"
+                                        label="Direction"
+                                        placeholder=""
+                                        variant="label-stacked"
+                                        value={orderByDirection}
+                                        options={orderByDirections}
+                                        disabled={isRHSDisabled}
+                                        onchange={handleValueChanged}
+                                ></lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <lightning-textarea name="queryString" label="Query Preview" value={_queryString}
+                                        onblur={handleSoqlChange}
+                    ></lightning-textarea>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

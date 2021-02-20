@@ -1,0 +1,18 @@
+h1 {
+    font-size: xx-large;
+}
+
+card {
+    /** display: block; 
+     border: 2px solid grey;**/    
+     background: rgb(255, 255, 255);
+     color: black   ;
+     text-align: center;
+     overflow-wrap: break-word;
+ }
+
+.fc-body {
+    display: flex; 
+    justify-content: space-between;
+    overflow-wrap: break-word;
+  }

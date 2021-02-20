@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="queryStringBuilder">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="label" label="Label" type="String" role="inputOnly"/>
+            <property name="objectType" label="Object Type" type="String" role="inputOnly"/>
+            <property name="disableObjectTypeSelection" label="Disable Object Type Selection" type="Boolean" role="inputOnly"/>
+            <property name="queryString" label="Query" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

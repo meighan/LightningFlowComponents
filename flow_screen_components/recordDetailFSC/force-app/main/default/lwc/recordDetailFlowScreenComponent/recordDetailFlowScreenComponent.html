@@ -1,0 +1,119 @@
+<!-- 
+Lightning Web Component for Flow Screens:       recordDetailFlowScreenComponent
+
+8/11/20 -    M Hamza Siddiqui - Version 1.8.1
+                                Added Class Option- Default Class = "slds-box slds-theme_default"
+
+8/3/20 -    Eric Smith -        Version 1.8
+                                Added option to suppress the field underline (Multiple columns don't always line up)
+
+/29/20 -    M Hamza Siddiqui -  Version 1.7
+                                Save and Cancel Button Labels are now changeable
+                                Option to hide CANCEL button
+                                Column Size option (Show all fields in 1 -> 12 sections)
+                                Disable Toast Option
+                                Removed slds-box class to remove double boxes under flow screen
+                                label-stacked variant added on input fields.
+
+4/29/20 -   Eric Smith -        Version 1.6
+                                Removed record-type-id={recordTypeId} from lightning-record-view-form
+
+4/16/20 -   Eric Smith -        Version 1.5
+                                Added underlines to fields when in View Mode to improve readability
+
+                            
+1/24/20 -   Eric Smith -        Version 1.3
+                                Added a feature to display and handle a Cancel button when in Edit mode
+                                Added an option to support flow navigation on record save and cancel                           
+                                Included descriptive labels and help text for Flow parameters
+
+-->
+<template>
+    <div class="container">
+
+        <template if:true={loadFinished}>
+            <div class={boxclass}>
+                <template if:true={isError}>
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme--error" role="alert">
+                        <template for:each={errors} for:item="error">
+                            <h2 key={error}> {error} </h2>
+                        </template>
+                    </div>
+                </template>
+                <template if:false={isError}>
+                    <template if:true={isViewMode}>
+                        <lightning-record-view-form
+                                record-id={recordId}
+                                object-api-name={objectApiName}>
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={fieldData} for:item="field">
+                                    <lightning-layout-item key={field.fieldName} size={elementSize}>
+                                        <div if:false={suppressUnderline} class="underline">
+                                            <lightning-output-field if:false={field.isError} field-name={field.fieldName}>
+                                            </lightning-output-field>
+                                        </div>
+                                        <div if:true={suppressUnderline}>
+                                            <lightning-output-field if:false={field.isError} field-name={field.fieldName}>
+                                            </lightning-output-field>
+                                        </div>
+                                        <div if:true={field.isError} class="slds-text-color_destructive">
+                                            {field.errorMessage}
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </lightning-record-view-form>
+                    </template>
+                    <template if:false={isViewMode}>
+                        <lightning-record-edit-form
+                                record-id={recordId}
+                                record-type-id={recordTypeId}
+                                object-api-name={objectApiName}
+                                onsuccess={handleSuccess}
+                                onerror={handleError}
+                        >
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={fieldData} for:item="field">
+                                    <lightning-layout-item key={field.fieldName} size={elementSize}>
+                                        <template if:false={field.isError} >
+                                            <lightning-output-field variant="label-stacked" if:true={field.isOutput} field-name={field.fieldName}>
+                                            </lightning-output-field>
+                                            <lightning-input-field  variant="label-stacked" if:false={field.isOutput} field-name={field.fieldName}>
+                                            </lightning-input-field>
+                                        </template>
+                                        <div if:true={field.isError}
+                                             class="slds-text-color_destructive slds-align_absolute-center">
+                                            {field.errorMessage}
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                                <lightning-layout-item size=12>
+                                    <lightning-button
+                                            class="slds-m-top_small slds-p-left_small slds-float--right"
+                                            variant="brand"
+                                            type="submit"
+                                            name="save"
+                                            label={SaveBtnLabel}>
+                                    </lightning-button>
+                                    <template if:true={showCancelButton}>
+                                        <lightning-button
+                                                class="slds-m-top_small slds-float--right"
+                                                variant="neutral"
+                                                type="button"
+                                                name="cancel"
+                                                label={CancelBtnLabel}
+                                                onclick={handleCancel}>
+                                        </lightning-button>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-record-edit-form>
+                    </template>
+                </template>
+            </div>
+        </template>
+        <div class="fbc_toast-message">
+            <c-fbc_toast-message></c-fbc_toast-message>
+        </div>
+    </div>
+</template>
